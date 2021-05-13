@@ -1,0 +1,80 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type TestDTO {
+  id:String
+  name:String
+  author:String
+  categories:[CategoryDTO]
+  level:String
+  questions:[QuestionDTO]
+  passScore:Int
+}
+
+type CategoryDTO {
+    id:String
+    name:String
+    testIds:[String]
+}
+
+type QuestionDTO {
+    id:String
+    text:String
+    type:String
+    answers:[AnswerDTO]
+    correctMessage:String
+    failMessage:String
+    image:String
+}
+
+type AnswerDTO {
+    id:String
+    text:String
+    correct:Boolean
+}
+
+input createTestDTO{
+  id:String
+  name:String
+  author:String
+  categories:[createCategoryDTO]
+  level:String
+  questions:[createQuestionDTO]
+  passScore:Int
+}
+
+input createQuestionDTO{
+id:String
+    text:String
+    type:String
+    answers:[createAnswerDTO]
+    correctMessage:String
+    failMessage:String
+    image:String
+}
+
+input createCategoryDTO{
+    id:String
+    name:String
+    testIds:[String]
+}
+
+input createAnswerDTO{
+    id:String
+    text:String
+    correct:Boolean
+}
+
+type Query {
+findAllTestsByAuthor(email:String): [TestDTO]
+findTestById(id:String): TestDTO
+findTestByLevelAndCategory(level:String, category:String): TestDTO
+findAllCategories: [CategoryDTO]
+}
+
+type Mutation {
+setPassScore(id:String, newPassScore: Int): TestDTO
+createTest(test:createTestDTO): TestDTO
+}
